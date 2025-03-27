@@ -10,7 +10,7 @@ body {
   overflow: hidden;
 }
 ol li,
-ul li{
+ul li {
   list-style-type: circle;
   list-style-position: inside;
 }

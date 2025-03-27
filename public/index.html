@@ -32,24 +32,24 @@
       let userTextBox = document.querySelector("#userTextBox");
       let responseBox = document.querySelector(".response-box");
       let i = 1;
-      userTextBox.addEventListener("submit", async(event) => {
-        event.preventDefault(); 
+      userTextBox.addEventListener("submit", async (event) => {
+        event.preventDefault();
         let chatbox = document.querySelector("#chatbox").value;
         let data = `<div class="responses">
                 <div class="user" id ="user${i}"><pre>${chatbox}</pre></div>
                 <div class="ai-response" id ="ai-response${i}">Loading.....</div>
               </div>`;
-              responseBox.insertAdjacentHTML("beforeend", data)
+        responseBox.insertAdjacentHTML("beforeend", data);
         let response = await fetch("http://localhost:3000/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userPrompt: chatbox })
-            });
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userPrompt: chatbox }),
+        });
 
-            let aiResponse = await response.json()
-            let updateAiResponse = document.querySelector(`#ai-response${i}`)
-            updateAiResponse.innerHTML = aiResponse.message
-            i++
+        let aiResponse = await response.json();
+        let updateAiResponse = document.querySelector(`#ai-response${i}`);
+        updateAiResponse.innerHTML = aiResponse.message;
+        i++;
       });
     </script>
   </body>
