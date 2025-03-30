@@ -1,4 +1,5 @@
 const { GoogleGenAI } = require("@google/genai");
+const { marked } = require("marked");
 require("dotenv").config();
 
 const express = require("express");
@@ -22,14 +23,8 @@ app.post("/chat", async (req, res) => {
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: userPrompt,
-    config: {
-      systemInstruction:
-        "Provide Content in HTML format without head, html and body tags. Just Format text using relevant HTML elements give some line breaks for clear information",
-    },
   });
-  console.log(userPrompt);
-  let result = response.text;
-  console.log(result);
+  let result = marked(response.text);
   return res.send({ message: result }).json();
 });
 
