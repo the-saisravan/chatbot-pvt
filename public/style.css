@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -6,34 +8,58 @@
 body {
   background-color: black;
   font-family: sans-serif;
-  margin-top: 10px;
-  overflow: hidden;
-}
-ol li,
-ul li {
-  list-style-type: disc;
-  list-style-position: inside;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  gap: 15px;
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.nav {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+}
+.nav a {
+  color: rgba(0, 0, 0, 0.345);
+  font-size: 25px;
+  letter-spacing: 5px;
+  padding-top: 10px;
+  text-decoration: none;
+  -webkit-text-stroke: 2px white;
+}
+
+.show-box {
+  display: flex;
+  align-items: center;
+  width: 85vw;
+  height: 90%;
+  background-color: rgba(0, 0, 0, 0.455);
+  border-radius: 20px;
+  padding-top: 10px;
+  overflow-y: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.499);
+}
+canvas {
+  filter: blur(1.2em);
+}
 .response-box {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   align-items: center;
-  width: 80vw;
-  height: 100%;
-  background-color: #0c0c0c;
-  border-radius: 20px;
-  overflow-y: scroll;
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.499);
+  gap: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
 }
 .scroll-bar {
   overflow-y: scroll;
@@ -44,36 +70,57 @@ ul li {
 form {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  border-radius: 20px;
-  width: 45vw;
+  border-radius: 30px;
+  width: 55vw;
 }
 
 .input-box {
   width: 100%;
   margin-right: 5px;
+  border-radius: 20px;
+  border: 1px solid #ffffff7f;
+  background-color: #000000c4;
+  display: flex;
 }
 textarea {
   width: 100%;
+  height: 100%;
   font-size: 1.2em;
-  padding: 10px;
-  border-radius: 20px;
-  background-color: #0c0c0c;
+  padding: 15px 0px 0px 10px;
+  background-color: #00000074;
   border: none;
+  border-radius: 20px 0px 0px 20px;
   outline: none;
-  color: white;
+  color: whitesmoke;
   caret-color: white;
   resize: none;
   min-height: 50px;
   max-height: 200px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
 }
 
-button {
-  padding: 12px;
-  border-radius: 20px;
+#submit {
+  padding: 15px;
   border: none;
   cursor: pointer;
-  background-color: #0c0c0c;
+  border-radius: 0px 20px 20px 0px;
+  background-color: #00000074;
+}
+#clear {
+  background-color: black;
+  padding: 18px 20px;
+  color: white;
+  border: 1px solid #ffffff7f;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.submit-button {
+  align-self: flex-end;
 }
 
 .responses {
@@ -81,7 +128,7 @@ button {
   flex-direction: column;
   gap: 20px;
   color: white;
-  width: 80%;
+  width: 85%;
 }
 
 .user {
@@ -89,21 +136,54 @@ button {
   width: fit-content;
   max-width: 50%;
   height: auto;
-  white-space: wrap;
   border-radius: 20px;
-  padding: 18px;
-  background-color: rgba(255, 255, 255, 0.236);
+  padding: 15px;
+  color: black;
+  background-color: rgb(230, 219, 219);
 }
 .ai-response {
   width: 100%;
   height: auto;
   align-self: center;
   border-radius: 20px;
-  padding: 18px;
-  background-color: rgba(0, 0, 0, 0.533);
-  text-wrap: wrap;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #1f1e1e;
 }
 
-p,ul,pre,ol{
+p,
+ul,
+pre,
+ol {
   padding: 10px 0;
+}
+
+ol li,
+ul li {
+  list-style-type: disc;
+  list-style-position: inside;
+  padding: 5px;
+}
+
+strong {
+  font-weight: 500;
+}
+
+
+@media screen and (max-width: 575px) {
+  .show-box {
+    width: 98vw;
+    padding: 5px 10px;
+  }
+  .responses {
+    width: 100%;
+    height: 100%;
+  }
+  .user {
+    max-width: 70%;
+    padding: 10px;
+  }
+  form {
+    width: 98vw;
+  }
 }

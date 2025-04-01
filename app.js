@@ -20,12 +20,16 @@ app.get("/", (req, res) => {
 app.post("/chat", async (req, res) => {
   const ai = new GoogleGenAI({ apiKey: process.env.MY_API_KEY });
   let { userPrompt } = req.body;
-  const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: userPrompt,
-  });
-  let result = marked(response.text);
-  return res.send({ message: result }).json();
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: userPrompt,
+    });
+    let result = marked(response.text);
+    return res.send({ message: result }).json();
+  } catch (error) {
+    console.log("Error:", error);
+  }
 });
 
 module.exports = app;

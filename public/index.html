@@ -3,109 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PsyDevs Chatbot</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Halo AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: black;
+        height: 100vh;
+      }
+      .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .container h1 {
+        font-family: "Archivo Black", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.345);
+        font-size: clamp(5em, 10vw, 12em);
+        text-align: center;
+        -webkit-text-stroke: 2px white;
+      }
+
+      .container a {
+        background-color: rgba(0, 0, 0, 0.345);
+        padding: 10px 20px;
+        color: white;
+        border: 1px solid white;
+        border-radius: 10px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <div class="response-box scroll-bar"></div>
-
-      <form id="userTextBox">
-        <div class="input-box">
-          <textarea
-            class="scroll-bar"
-            name="chatbox"
-            id="chatbox"
-            placeholder="Let's Chat"
-          ></textarea>
-        </div>
-        <div>
-          <button type="submit" id="submit">
-            <span
-              ><img src="assets/icons/send.svg" alt="send button" width="25px"
-            /></span>
-          </button>
-        </div>
-      </form>
+      <h1>HALO AI</h1>
+      <a href="chat.html">Get Started</a>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.halo.min.js"></script>
     <script>
-      let textarea = document.querySelector("textarea");
-      textarea.addEventListener("keyup", (e) => {
-        textarea.style.height = "auto";
-        textarea.style.height = `${textarea.scrollHeight}px`;
-      });
-
-      let userTextBox = document.querySelector("#userTextBox");
-      let responseBox = document.querySelector(".response-box");
-      let button = document.querySelector("#submit");
-
-      let savedResponses = JSON.parse(localStorage.getItem("localdata")) || [];
-      let i = savedResponses.length + 1;
-
-      const displayHistory = () => {
-        const entries = savedResponses;
-        entries.forEach((entry) => {
-          let data = `<div class="responses" id = "response${entry.id}">
-                <div class="user" id ="user${entry.id}">${entry.user}</div>
-                <div class="ai-response" id ="ai-response${entry.id}">${entry.ai}</div>
-              </div>`;
-          responseBox.insertAdjacentHTML("beforeend", data);
+      document.addEventListener("DOMContentLoaded", function () {
+        VANTA.HALO({
+          el: ".container",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          baseColor: 0x4e7ad9,
+          backgroundColor: 0x8090b,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          size: 1.5,
         });
-      };
-
-      displayHistory();
-
-      userTextBox.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        if (textarea.value === "") {
-          textarea.placeholder = "Please type something";
-        } else {
-          let data = `<div class="responses" id = "response${i}">
-                <div class="user" id ="user${i}"></div>
-                <div class="ai-response" id ="ai-response${i}">Loading.....</div>
-              </div>`;
-          responseBox.insertAdjacentHTML("beforeend", data);
-          button.disabled = true;
-          button.style.cursor = "not-allowed";
-          let user = document.querySelector(`#user${i}`);
-          user.textContent = textarea.value;
-          textarea.value = "";
-          textarea.style.height = "auto";
-          document
-            .querySelector(`#response${i}`)
-            .scrollIntoView({ behavior: "smooth", block: "start" });
-
-          try {
-            let response = await fetch("http://localhost:3000/chat", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ userPrompt: user.textContent }),
-            });
-
-            let aiResponse = await response.json();
-            console.log(aiResponse);
-            let updateAiResponse = document.querySelector(`#ai-response${i}`);
-            updateAiResponse.innerHTML = aiResponse.message;
-
-            document
-              .querySelector(`#response${i}`)
-              .scrollIntoView({ behavior: "smooth", block: "start" });
-
-            savedResponses.push({
-              id: i,
-              user: user.textContent,
-              ai: aiResponse.message,
-            });
-            localStorage.setItem("localdata", JSON.stringify(savedResponses));
-            i++;
-          } catch (error) {
-            console.log("Error: ", error);
-          }
-          button.disabled = false;
-          button.style.cursor = "pointer";
-        }
-        console.log(savedResponses);
       });
     </script>
   </body>
