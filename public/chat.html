@@ -23,6 +23,10 @@
             placeholder="Let's Chat"
           ></textarea>
           <div class="submit-button">
+            <div>
+              <button type="button" id="proposal">Proposal</button>
+              <button type="reset" id="clear">Clear</button>
+            </div>
             <button type="submit" id="submit">
               <span
                 ><img
@@ -33,7 +37,6 @@
             </button>
           </div>
         </div>
-        <button type="reset" id="clear">Clear</button>
       </form>
     </div>
 
@@ -64,6 +67,24 @@
 
       displayHistory();
 
+      let url = "http://localhost:5000";
+      const proposal = document.querySelector("#proposal");
+      let proposalActive = false;
+      proposal.addEventListener("click", () => {
+        if (!proposalActive) {
+          proposal.style.backgroundColor = "white"
+          proposal.style.color = "black"
+          url = "http://localhost:5000/chat/proposal";
+          console.log(url);
+        } else {
+           proposal.style.backgroundColor = "black"
+          proposal.style.color = "whitesmoke"
+          url = "http://localhost:5000/chat";
+          console.log(url);
+        }
+        proposalActive = !proposalActive;
+      });
+
       userTextBox.addEventListener("submit", async (event) => {
         event.preventDefault();
         if (textarea.value.trim() === "") {
@@ -83,15 +104,15 @@
           document
             .querySelector(`#response${i}`)
             .scrollIntoView({ behavior: "smooth", block: "start" });
-             textarea.placeholder = "Let's Chat"
+          textarea.placeholder = "Let's Chat";
 
           try {
-            let response = await fetch("http://localhost:5000/chat", {
+            let response = await fetch(url, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ userPrompt: user.textContent }),
             });
-
+            console.log(url);
             let aiResponse = await response.json();
             console.log(aiResponse);
             let updateAiResponse = document.querySelector(`#ai-response${i}`);
@@ -116,12 +137,12 @@
         }
       });
 
-      const clear = document.querySelector("#clear")
-      clear.addEventListener("click",(event)=>{
-        event.preventDefault()
-        localStorage.clear()
-        responseBox.innerHTML = ""
-      })
+      const clear = document.querySelector("#clear");
+      clear.addEventListener("click", (event) => {
+        event.preventDefault();
+        localStorage.clear();
+        responseBox.innerHTML = "";
+      });
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>

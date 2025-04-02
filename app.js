@@ -13,6 +13,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+const ai = new GoogleGenAI({ apiKey: process.env.MY_API_KEY });
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
@@ -24,6 +26,23 @@ app.post("/chat", async (req, res) => {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: userPrompt,
+    });
+    let result = marked(response.text);
+    return res.send({ message: result }).json();
+  } catch (error) {
+    console.log("Error:", error);
+  }
+});
+
+app.post("/chat/proposal", async (req, res) => {
+  let { userPrompt } = req.body;
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: userPrompt,
+      config: {
+        systemInstruction: "You are now a Proposal Generator for businesses",
+      },
     });
     let result = marked(response.text);
     return res.send({ message: result }).json();
