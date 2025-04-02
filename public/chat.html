@@ -67,19 +67,19 @@
 
       displayHistory();
 
-      let url = "http://localhost:5000";
+      let url = "http://localhost:3001";
       const proposal = document.querySelector("#proposal");
       let proposalActive = false;
       proposal.addEventListener("click", () => {
         if (!proposalActive) {
           proposal.style.backgroundColor = "white"
           proposal.style.color = "black"
-          url = "http://localhost:5000/chat/proposal";
+          url = "http://localhost:3001/chat/proposal";
           console.log(url);
         } else {
            proposal.style.backgroundColor = "black"
           proposal.style.color = "whitesmoke"
-          url = "http://localhost:5000/chat";
+          url = "http://localhost:3001/chat";
           console.log(url);
         }
         proposalActive = !proposalActive;
